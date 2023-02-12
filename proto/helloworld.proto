@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+// option go_package = "github.com/jun06t/grpc-sample/client-side-lb/proto";
+option go_package = "./proto";
+
+package proto;
+
+service Greeter {
+  rpc SayHello(HelloRequest) returns (HelloReply) {}
+}
+
+message HelloRequest { string name = 1; }
+
+message HelloReply {
+  string message = 1;
+  string machine_id = 2;
+}

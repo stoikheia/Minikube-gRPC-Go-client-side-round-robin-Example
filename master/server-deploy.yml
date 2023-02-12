@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  namespace: client-side-lb-sample
+spec:
+  selector:
+    matchLabels:
+      app: server
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - image: "stoikheia/client-side-lb:server"
+        imagePullPolicy: IfNotPresent 
+        #imagePullPolicy: Always
+        name: server
+        ports:
+          - containerPort: 8080
+        env:
+        - name: MAX_CONNECTION_AGE
+          value: "30"
+        - name: GRPC_VERBOSITY
+          value: "DEBUG"
+        - name: GRPC_GO_LOG_SEVERITY_LEVEL
+          value: "info"
+        - name: GRPC_GO_LOG_VERBOSITY_LEVEL
+          value: "2"
+        - name: GRPC_TRACE
+          value: "all"
+#        - name: GODEBUG
+#          value: "http2debug=2"
